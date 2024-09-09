@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
-import NewProject from './components/NewProject';
-import NoProjectSelected from './components/NoProjectSelected';
-import ProjectsSidebar from './components/ProjectsSidebar';
-import SelectedProject from './components/SelectedProject';
+import NewProject from './components/NewProject.jsx';
+import NoProjectSelected from './components/NoProjectSelected.jsx';
+import ProjectsSidebar from './components/ProjectsSidebar.jsx';
+import SelectedProject from './components/SelectedProject.jsx';
 
 function App() {
   const [projectsState, setProjectsState] = useState({
     selectedProjectId: undefined,
     projects: [],
-    tasks: []
+    tasks: [],
   });
 
   function handleAddTask(text) {
@@ -23,7 +23,7 @@ function App() {
 
       return {
         ...prevState,
-        tasks: [...prevState.tasks, newTask],
+        tasks: [newTask, ...prevState.tasks],
       };
     });
   }
@@ -31,9 +31,8 @@ function App() {
   function handleDeleteTask(id) {
     setProjectsState((prevState) => {
       return {
-        ...prevState,       
-        tasks: prevState.tasks.filter(
-          (task) => task.id !== id)
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
       };
     });
   }
@@ -86,12 +85,16 @@ function App() {
       return {
         ...prevState,
         selectedProjectId: undefined,
-        projects: prevState.projects.filter((project) => project.id !== prevState.selectedProjectId)
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectId
+        ),
       };
     });
   }
 
-  const selectedProject = projectsState.projects.find(project => project.id === projectsState.selectedProjectId);
+  const selectedProject = projectsState.projects.find(
+    (project) => project.id === projectsState.selectedProjectId
+  );
 
   let content = (
     <SelectedProject
